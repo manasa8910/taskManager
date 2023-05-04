@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    public List<Comment> findByTaskId(Long id);
+    List<Comment> findByTaskId(Long taskId);
 }

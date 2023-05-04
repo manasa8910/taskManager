@@ -18,9 +18,5 @@ public class User {
 
     @Column(nullable = false)
     private String fullName;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userDetails_id", nullable = false)
-    private UserDetails userDetails;
 }
 

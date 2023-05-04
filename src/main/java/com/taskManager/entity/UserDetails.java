@@ -1,8 +1,15 @@
 package com.taskManager.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class UserDetails {
 
@@ -11,7 +18,7 @@ public class UserDetails {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String UserName;
+    private String userName;
 
     @Column(nullable = false)
     private String password;
@@ -22,9 +29,8 @@ public class UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @OneToOne(mappedBy = "userDetails")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
