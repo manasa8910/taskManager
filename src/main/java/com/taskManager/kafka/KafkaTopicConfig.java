@@ -7,10 +7,9 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaTopicConfig {
-
     @Bean
-    public NewTopic MyJsonTopic(){   //create kafka topic
-        return TopicBuilder.name("task_notification")
+    public NewTopic MyJsonTopic2() {   //create kafka topic
+        return TopicBuilder.name("task")
                 .build();
     }
 }

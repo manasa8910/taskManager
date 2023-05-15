@@ -22,7 +22,7 @@ public class ApprovalService {
         task.approveTask(user,approve);
 
         TaskNotificationModal notificationModal = new TaskNotificationModal();
-        notificationModal.setNotificationMessage("task approval has been updated");
+        notificationModal.setNotificationMessage("Task approval has been updated");
         notificationModal.setName(task.getName());
         notificationModal.setDescription(task.getDescription());
         notificationModal.setDueDate(task.getDueDate());

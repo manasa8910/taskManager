@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskNotificationModal {
+
     private String notificationMessage;
     private String name;
     private String description;

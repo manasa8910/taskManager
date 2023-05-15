@@ -17,22 +17,22 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public User getUserById(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User user) {
-        User existingUser = userRepository.findById(id).get();
+    public User updateUser(String userName, User user) {
+        User existingUser = userRepository.findByUserName(userName);
         existingUser.setFullName(user.getFullName());
         return  userRepository.save(existingUser);
     }
 
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id).get();
+    public void deleteUser(String userName) {
+        User user = userRepository.findByUserName(userName);
         userRepository.delete(user);
     }
 }

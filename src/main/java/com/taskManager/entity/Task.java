@@ -76,7 +76,7 @@ public class Task {
 
     public void setStatus(Status status, User assignedTo) {
         if (!isCompleted()) {
-            if (getAssignedTo() != assignedTo) {
+            if (!getAssignedTo().equals(assignedTo)) {
                 throw new IllegalStateException("Only assignee can change status");
             }
             if (status == Status.IN_PROGRESS) {

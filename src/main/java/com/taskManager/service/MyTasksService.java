@@ -21,8 +21,8 @@ public class MyTasksService {
     @Autowired
     private JsonKafkaProducer kafkaProducer;
 
-    public List<Task> findByCompleted(boolean completed, User assignedTo) {
-        return taskRepository.findByCompletedAndAssignedTo(completed, assignedTo);
+    public List<Task> findByCompleted(boolean completed, User user) {
+        return taskRepository.findByCompletedAndAssignedTo(completed, user);
     }
 
     public void setStatus(Status status, User user, Long id) {
@@ -30,7 +30,7 @@ public class MyTasksService {
         task.setStatus(status,user);
 
         TaskNotificationModal notificationModal = new TaskNotificationModal();
-        notificationModal.setNotificationMessage("Status has been changed");
+        notificationModal.setNotificationMessage("Status has been updated");
         notificationModal.setName(task.getName());
         notificationModal.setDescription(task.getDescription());
         notificationModal.setDueDate(task.getDueDate());
@@ -52,7 +52,7 @@ public class MyTasksService {
         task.addComment(comment);
 
         TaskNotificationModal notificationModal = new TaskNotificationModal();
-        notificationModal.setNotificationMessage("received a new comment on the task");
+        notificationModal.setNotificationMessage("Received a new comment on the task");
         notificationModal.setName(task.getName());
         notificationModal.setDescription(task.getDescription());
         notificationModal.setDueDate(task.getDueDate());

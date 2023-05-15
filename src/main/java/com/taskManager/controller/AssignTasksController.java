@@ -1,12 +1,15 @@
 package com.taskManager.controller;
 
-import com.taskManager.Security.GetUser;
+import com.taskManager.Config.UserInfoUserDetailsService;
 import com.taskManager.entity.Comment;
 import com.taskManager.entity.Task;
-import com.taskManager.entity.User;
 import com.taskManager.modal.TaskModel;
 import com.taskManager.service.AssignTaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +18,14 @@ import java.util.List;
 @RestController
 public class AssignTasksController {
 
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(AssignTasksController.class);
+
     @Autowired
     private AssignTaskService assignTaskService;
 
-//    @Autowired
-//    private GetUser getUser;
-
-    User user;
+    @Autowired
+    private UserInfoUserDetailsService authService;
 
     @GetMapping
     public List<Task> getTasks() {
@@ -29,27 +33,36 @@ public class AssignTasksController {
     }
 
     @GetMapping("/{id}")
-    public Task getTask(@PathVariable Long id) {
-        return assignTaskService.getTask(id);
+    public ResponseEntity<Object> getTask(@PathVariable Long id) {
+        Task task = assignTaskService.getTask(id);
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        } else {
+            return new ResponseEntity<>("project not found", HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping
     public Task createTask(@RequestBody TaskModel taskModel) {
-        return assignTaskService.createTask(taskModel, taskModel.getCreatedBy());
+        LOGGER.info("Assigning new task");
+        return assignTaskService.createTask(taskModel, authService.performAction());
     }
 
     @PutMapping("/{id}")
     private Task updateTask(@RequestBody TaskModel taskModel, @PathVariable Long id) {
-        return assignTaskService.updateTask(taskModel, id, taskModel.getCreatedBy());
+        LOGGER.info("updating task");
+        return assignTaskService.updateTask(taskModel, id, authService.performAction());
     }
 
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        assignTaskService.deleteTask(id, user);
+        LOGGER.info("deleting task");
+        assignTaskService.deleteTask(id, authService.performAction());
     }
 
     @GetMapping("/comments/{id}")
-    public List<Comment> getcommentsByTaskId(@PathVariable Long id){
+    public List<Comment> getcommentsByTaskId(@PathVariable Long id) {
         return assignTaskService.getComments(id);
     }
 

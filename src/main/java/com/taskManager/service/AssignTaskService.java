@@ -11,7 +11,6 @@ import com.taskManager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +41,7 @@ public class AssignTaskService {
         if (Objects.nonNull(taskModel.getCategory())) task.setCategory(taskModel.getCategory());
 
         TaskNotificationModal notificationModal = new TaskNotificationModal();
-        notificationModal.setNotificationMessage("created a new task");
+        notificationModal.setNotificationMessage("Created a new task");
         notificationModal.setName(task.getName());
         notificationModal.setDescription(task.getDescription());
         notificationModal.setDueDate(task.getDueDate());
@@ -90,7 +89,7 @@ public class AssignTaskService {
 
     public void deleteTask(Long id, User user) {
         Task existingTask = taskRepository.findById(id).get();
-        if (existingTask.getCreatedBy() != user) {
+        if (!existingTask.getCreatedBy().equals(user)) {
             throw new IllegalStateException("Task deletion requires task owner's authority");
         }
 
